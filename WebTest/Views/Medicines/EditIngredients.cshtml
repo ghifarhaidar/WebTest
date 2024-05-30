@@ -1,0 +1,60 @@
+﻿@model WebTest.VWModels.MedicineIngredient.ShowIngredientsResponse
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h1>Ingredients</h1>
+
+            <table class="table table-hover table-striped mt-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ingredient in Model.Ingredients)
+                    {
+                        <tr>
+                            <td>@ingredient.Name</td>
+                            <td>@ingredient.Ratio</td>
+                            <td class="text-end">
+                                <a class="btn btn-info btn-sm" asp-controller="Ingredients" asp-action="Edit" asp-route-id="@ingredient.Id">Edit</a>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Ingredients" asp-action="Details" asp-route-id="@ingredient.Id">Details</a>
+                                <a class="btn btn-danger btn-sm" asp-controller="Ingredients" asp-action="Delete" asp-route-id="@ingredient.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Add New Ingredient</h4>
+                    @using (Html.BeginForm("AddIngredient", "Medicines", new { id = Model.MedicineId }, FormMethod.Post))
+                    {
+
+                        <form asp-action="AddIngredient" asp-controller="Medicine" method="post">
+                            <div class="form-group">
+                                <label for="IngredientId">Ingredient:</label>
+                                <select id="IngredientId" name="IngredientId" class="form-control" asp-items="@ViewBag.Ingredients"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Ratio">Ratio:</label>
+                                <input type="text" id="Ratio" name="Ratio" class="form-control" />
+                            </div>
+                            <input type="hidden" name="id" value="@ViewData["id"]" />
+                            <div class="form-group mt-4">
+                                <input type="submit" value="Add Ingredient" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

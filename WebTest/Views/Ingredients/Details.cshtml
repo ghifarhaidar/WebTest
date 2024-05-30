@@ -1,0 +1,29 @@
+﻿@model DataAccess.Models.Ingredient
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-4">Ingredient Details</h1>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-3">Name:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+                        <dt class="col-sm-3">Description:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+                    </dl>
+                    <div class="mt-3">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
