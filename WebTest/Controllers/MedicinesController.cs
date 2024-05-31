@@ -43,7 +43,7 @@ namespace WebTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(new Medicine()
+                var newMedicine = new Medicine()
                 {
                     Name = medicine.Name,
                     Description = medicine.Description,
@@ -53,6 +53,13 @@ namespace WebTest.Controllers
                     InStock = medicine.InStock,
                     FactoryId = medicine.FactoryId,
                     TradeName = medicine.TradeName,
+                };
+                _context.Add(newMedicine);
+                _context.Add(new MedicineIngredient()
+                {
+                    MedicineId = newMedicine.Id,
+                    IngredientId = newMedicine.ActiveSubstanceId,
+                    Ratio = 1,
                 });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
