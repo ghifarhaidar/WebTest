@@ -55,6 +55,7 @@ namespace WebTest.Controllers
                     TradeName = medicine.TradeName,
                 };
                 _context.Add(newMedicine);
+                await _context.SaveChangesAsync();
                 _context.Add(new MedicineIngredient()
                 {
                     MedicineId = newMedicine.Id,
@@ -239,6 +240,23 @@ namespace WebTest.Controllers
             {
                 return NotFound();
             }
+            var filteredIngredients = _context.MedicineIngredients
+                                    .Where(i => i.MedicineId == id)
+                                    .Include(e => e.Ingredient)
+                                    .ToList();
+
+            var ingredients = new VWModels.MedicineIngredient.ShowIngredientsResponse();
+
+            ingredients.MedicineId = (int)id;
+            ingredients.Ingredients = filteredIngredients.Select(i => new IngredientInfo()
+            {
+                Id = i.Ingredient.Id,
+                Name = i.Ingredient.Name,
+                Ratio = i.Ratio
+            }).ToList();
+
+            ViewBag.FilteredIngredients = new SelectList(filteredIngredients, "Id", "Name");
+            ViewBag.Ingredients = ingredients;
 
             return View(medicine);
         }
