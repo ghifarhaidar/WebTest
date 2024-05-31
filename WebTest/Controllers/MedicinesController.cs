@@ -186,6 +186,90 @@ namespace WebTest.Controllers
             return RedirectToAction(nameof(EditIngredients), new { id = id });
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteIngredient( int ingredientId,  int medicineId)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var MedicineIngredient = await _context.MedicineIngredients
+                            .FirstOrDefaultAsync(m => m.MedicineId == medicineId && m.IngredientId == ingredientId);
+                if (MedicineIngredient  is not null)
+                {
+                    _context.MedicineIngredients.Remove(MedicineIngredient);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(EditIngredients), new { id = medicineId });
+            }
+
+            return RedirectToAction(nameof(EditIngredients), new { id = medicineId });
+
+        }
+        public async Task<IActionResult> EditIngredient(int ingredientId, int medicineId)
+        {
+            var ingredient =  _context.MedicineIngredients
+                                    .Where(m => m.IngredientId == ingredientId && m.MedicineId == medicineId)
+                                    .Include(e => e.Ingredient)
+                                    .Select(i => new EditIngredientInMedicineRequest()
+                                    {
+                                        MedicineIngredientId = i.Id,
+                                        MedicineId = i.MedicineId,
+                                        Ingredient=new IngredientInfo()
+                                        {
+                                            Id = i.Ingredient.Id,
+                                            Name = i.Ingredient.Name,
+                                            Ratio = i.Ratio
+                                        },
+                                    }).ToList();
+
+        
+            if (ingredient == null)
+            {
+                return NotFound();
+            }
+
+            
+
+            return View(ingredient[0]);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditIngredient(EditIngredientInMedicineRequest model)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                var medicineIngredient = new MedicineIngredient
+                {
+                    Id = model.MedicineIngredientId,
+                    MedicineId = model.MedicineId,
+                    IngredientId = model.Ingredient.Id,
+                    Ratio = model.Ingredient.Ratio
+                };
+                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                Console.WriteLine(medicineIngredient.Id);
+                Console.WriteLine(medicineIngredient.MedicineId);
+                Console.WriteLine(medicineIngredient.IngredientId);
+                Console.WriteLine(medicineIngredient.Ratio);
+                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                if (medicineIngredient is not null)
+                {
+                    _context.Update(medicineIngredient);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(EditIngredients), new { id = model.MedicineId });
+            }
+
+            return RedirectToAction(nameof(EditIngredient), new { ingredientId = model.Ingredient.Id, medicineId = model.MedicineId });
+
+        }
+
 
         public async Task<IActionResult> Delete(int? id)
         {

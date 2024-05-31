@@ -22,9 +22,12 @@
                             <td>@ingredient.Name</td>
                             <td>@ingredient.Ratio</td>
                             <td class="text-end">
-                                <a class="btn btn-info btn-sm" asp-controller="Ingredients" asp-action="Edit" asp-route-id="@ingredient.Id">Edit</a>
-                                <a class="btn btn-secondary btn-sm" asp-controller="Ingredients" asp-action="Details" asp-route-id="@ingredient.Id">Details</a>
-                                <a class="btn btn-danger btn-sm" asp-controller="Ingredients" asp-action="Delete" asp-route-id="@ingredient.Id">Delete</a>
+                                <a class="btn btn-info btn-sm" asp-action="EditIngredient" asp-controller="Medicines" asp-route-ingredientId="@ingredient.Id" asp-route-medicineId="@Model.MedicineId">Edit</a>
+                                <form asp-controller="Medicines" asp-action="DeleteIngredient" method="post" style="display:inline;">
+                                    <input type="hidden" name="ingredientId" value="@ingredient.Id" />
+                                    <input type="hidden" name="medicineId" value="@Model.MedicineId" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     }
