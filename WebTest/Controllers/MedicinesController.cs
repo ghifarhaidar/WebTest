@@ -87,7 +87,7 @@ namespace WebTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute]int id, [Bind("Name, Description, CategoryId, Dose, ActiveSubstanceId, InStock, FactoryId, TradeName")] CreateMedicineRequest medicine)
+        public async Task<IActionResult> Edit([FromRoute]int id, [Bind("Name, Description, CategoryId, Dose, ActiveSubstanceId, InStock, FactoryId, TradeName")] EditMedicineRequest medicine)
         {
 
 
