@@ -78,7 +78,7 @@ namespace WebTest.Controllers
 
             if (_context.Ingredients is null)
             {
-                return Problem("Entity set 'PharmacyContext.Medicines'  is null.");
+                return Problem("Entity set 'PharmacyContext.Ingredients'  is null.");
             }
             var ingredient = await _context.Ingredients.FindAsync(id);
             if (ingredient is not null)

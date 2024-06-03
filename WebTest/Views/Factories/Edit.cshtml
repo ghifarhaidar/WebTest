@@ -1,19 +1,18 @@
-﻿@model WebTest.VWModels.Factory.CreateFactoryRequest
+﻿@model WebTest.VWModels.Factory.EditFactoryRequest
 
 @{
-    ViewData["Title"] = "Create Factory";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="display-4">Create Factory</h1>
-            <p class="lead">Fill in the details below to add a new factory.</p>
+            <h1 class="display-4">Edit Factory</h1>
             <hr />
             <div class="row">
                 <div class="col-md-6">
-                    <form asp-action="Create">
+                    <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <div class="form-group">
                             <label asp-for="Name" class="control-label"></label>
@@ -21,7 +20,7 @@
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div class="form-group mt-3">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <input type="submit" value="Save" class="btn btn-primary" />
                             <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
                         </div>
                     </form>
