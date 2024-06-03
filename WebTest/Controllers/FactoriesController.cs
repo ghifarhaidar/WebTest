@@ -36,7 +36,46 @@ namespace WebTest.Controllers
             }
             return View(factory);
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id is null)
+            {
+                return NotFound();
+            }
 
+            var factory = await _context.Factories
+                            .FirstOrDefaultAsync(f => f.Id == id);
+            if (factory is null)
+            {
+                return NotFound();
+            }
+            var filteredMedicines = _context.Medicines
+                                    .Where(i => i.FactoryId == id)
+                                    .Include(e => e.Category)
+                                    .Include(e => e.ActiveSubstance)
+                                    .ToList();
+
+            var medicines = new VWModels.Factory.ShowMedicinesResponse();
+
+            medicines.FactoryId = (int)id;
+            medicines.Name = factory.Name;
+            medicines.Medicines = filteredMedicines
+                                    .Where(i => i.FactoryId == id)
+                                    .Select(i => new MedicineInfo()
+                                    {
+                                        Id = i.Id,
+                                        Name = i.Name,
+                                        TradeName = i.TradeName,
+                                        InStock = i.InStock,
+                                        ActiveSubstance = i.ActiveSubstance.Name,
+                                        Category = i.Category.Name,
+                                        Dose = i.Dose,
+
+                                    }).ToList();
+
+            ViewBag.Medicines = medicines;
+            return View(medicines);
+        }
         public async Task<IActionResult> Delete(int? id)
         {
             if (id is null)
