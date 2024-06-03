@@ -251,12 +251,6 @@ namespace WebTest.Controllers
                     IngredientId = model.Ingredient.Id,
                     Ratio = model.Ingredient.Ratio
                 };
-                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                Console.WriteLine(medicineIngredient.Id);
-                Console.WriteLine(medicineIngredient.MedicineId);
-                Console.WriteLine(medicineIngredient.IngredientId);
-                Console.WriteLine(medicineIngredient.Ratio);
-                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 if (medicineIngredient is not null)
                 {
                     _context.Update(medicineIngredient);
