@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace WebTest.Models
+namespace DataAccess.Models
 {
     public partial class PharmacyContext : DbContext
     {
