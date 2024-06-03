@@ -1,4 +1,4 @@
-﻿@model DataAccess.Models.Category
+﻿@model WebTest.VWModels.Category.EditCategoryRequest
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,7 +14,6 @@
                 <div class="col-md-6">
                     <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        <input type="hidden" asp-for="Id" />
                         <div class="form-group">
                             <label asp-for="Name" class="control-label"></label>
                             <input asp-for="Name" class="form-control" />
