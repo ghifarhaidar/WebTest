@@ -84,7 +84,6 @@ namespace WebTest.Controllers
             if (ingredient is not null)
             {
                 _context.Ingredients.Remove(ingredient);
-                Console.WriteLine(1);
             }
 
             await _context.SaveChangesAsync();
