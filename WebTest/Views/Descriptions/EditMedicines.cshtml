@@ -1,0 +1,70 @@
+﻿@model WebTest.VWModels.DescriptionMedicine.ShowMedicinesResponse
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h1>Medicines</h1>
+
+            <table class="table table-hover table-striped mt-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>TradeName</th>
+                        <th>Count</th>
+                        <th>InStock</th>
+                        <th>Dose</th>
+                        <th>Factory</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var medicine in Model.Medicines)
+                    {
+                        <tr>
+                            <td>@medicine.Name</td>
+                            <td>@medicine.TradeName</td>
+                            <td>@medicine.Count</td>
+                            <td>@medicine.InStock</td>
+                            <td>@medicine.Dose</td>
+                            <td>@medicine.Factory</td>
+                            <td class="text-end">
+                                <a class="btn btn-info btn-sm" asp-action="EditMedicine" asp-controller="Descriptions" asp-route-medicineId="@medicine.Id" asp-route-descriptionId="@Model.DescriptionId">Edit</a>
+                                <form asp-controller="Descriptions" asp-action="DeleteMedicine" method="post" style="display:inline;">
+                                    <input type="hidden" name="medicineId" value="@medicine.Id" />
+                                    <input type="hidden" name="descriptionId" value="@Model.DescriptionId" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Add New Medicine</h4>
+                    @using (Html.BeginForm("AddMedicine", "Descriptions", new { id = Model.DescriptionId }, FormMethod.Post))
+                    {
+
+                        <form asp-action="AddMedicine" asp-controller="Descriptions" method="post">
+                            <div class="form-group">
+                                <label for="MedicineId">Medicine:</label>
+                                <select id="MedicineId" name="MedicineId" class="form-control" asp-items="@ViewBag.Medicines"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Count">Count:</label>
+                                <input type="text" id="Count" name="Count" class="form-control" />
+                            </div>
+                            <div class="form-group mt-4">
+                                <input type="submit" value="Add Medicine" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

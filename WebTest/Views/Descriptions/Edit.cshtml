@@ -27,8 +27,10 @@
                         </div>
                         <div class="form-group mt-3">
                             <input type="submit" value="Edit" class="btn btn-primary" />
+                            <a href="@Url.Action("EditMedicines", "Descriptions", new { id = Model.Id })" class="btn btn-primary  ms-2">Edit Medicines</a>
                             <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
                         </div>
+
                     </form>
                 </div>
             </div>

@@ -1,0 +1,42 @@
+﻿@model WebTest.VWModels.DescriptionMedicine.EditMedicineinDescriptionRequest
+
+@{
+    ViewData["Title"] = "Edit Medicine";
+}
+
+<h1>Edit Medicine</h1>
+
+<form asp-action="EditMedicine" method="post">
+    <div class="col-md-6">
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.MedicineId):
+            </dt>
+            <dd class="col-sm-2">
+                @Html.DisplayFor(model => model.MedicineId)
+            </dd>
+        </dl>
+        <div class="form-group">
+            <label asp-for="Medicine.Count">Count:</label>
+            <input asp-for="Medicine.Count" class="form-control" />
+            <span asp-validation-for="Medicine.Count" class="text-danger"></span>
+            <input type="hidden" value="@Model.MedicineId" asp-for="Medicine.Id" />
+
+        </div>
+        <input type="hidden" value="@Model.MedicineId" asp-for="MedicineId" />
+        <input type="hidden" value="@Model.DescriptionId" asp-for="DescriptionId" />
+        <input type="hidden" value="@Model.DescriptionMedicineId" asp-for="DescriptionMedicineId" />
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary">Edit Medicine</button>
+            <a asp-action="EditMedicines" asp-route-id="@Model.DescriptionId" class="btn btn-secondary ms-2">Back</a>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

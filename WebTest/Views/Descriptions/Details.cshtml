@@ -20,6 +20,8 @@
                         <dt class="col-sm-3">Patient:</dt>
                         <dd class="col-sm-9">@ViewBag.Description.Patient.FirstName</dd>
                     </dl>
+                    <hr />
+                    <h1>Medicines</h1>
                     <table class="table table-hover table-striped mt-4">
                         <thead class="thead-dark">
                             <tr>
@@ -28,7 +30,7 @@
                                 <th>@Html.DisplayNameFor(model => model.Medicines.First().Dose)</th>
                                 <th>@Html.DisplayNameFor(model => model.Medicines.First().InStock)</th>
                                 <th>@Html.DisplayNameFor(model => model.Medicines.First().Factory)</th>
-                                <th>@Html.DisplayNameFor(model => model.Medicines.First().ActiveSubstance)</th>
+                                <th>@Html.DisplayNameFor(model => model.Medicines.First().Count)</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
@@ -41,7 +43,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.Dose)</td>
                                     <td>@Html.DisplayFor(modelItem => item.InStock)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Factory)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.ActiveSubstance)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Count)</td>
                                     <td class="text-end">
                                         <a class="btn btn-info btn-sm" asp-controller="Medicines" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                         <a class="btn btn-secondary btn-sm" asp-controller="Medicines" asp-action="Details" asp-route-id="@item.Id">Details</a>
@@ -53,6 +55,7 @@
                     </table>
                     <div class="mt-3">
                         <a asp-action="Edit" asp-route-id="@Model?.DescriptionId" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("EditMedicines", "Descriptions", new { id = Model.DescriptionId })" class="btn btn-primary  ms-2">Edit Medicines</a>
                         <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
                     </div>
                 </div>
