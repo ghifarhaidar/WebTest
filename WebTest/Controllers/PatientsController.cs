@@ -144,11 +144,10 @@ namespace WebTest.Controllers
             var descriptions = new VWModels.Patient.ShowDescriptionsResponse();
 
             descriptions.PatientId = (int)id;
-            descriptions.Name = patient.FirstName + " " + patient.LastName;
             descriptions.Descriptions = filteredDescriptions.Select(i => new DescriptionInfo()
             {
                 Id = i.Id,
-                Name = patient.FirstName + " " + patient.LastName,
+                Name = i.Name,
                 PatientId = i.Id,
                 Description1 = i.Description1,
             }).ToList();
