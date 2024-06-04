@@ -65,19 +65,19 @@ namespace WebTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditPatientRequest patien)
+        public async Task<IActionResult> Edit(int id, EditPatientRequest patient)
         {
             
 
             if (ModelState.IsValid)
             {
-                var patient = await _context.Patients.FindAsync(id);
                 if (patient is null)
                 {
                     return NotFound();
                 }
                 _context.Update(new Patient()
                 {
+                    Id = id,
                     FirstName = patient.FirstName,
                     LastName = patient.LastName,
                     Address = patient.Address,
@@ -88,7 +88,7 @@ namespace WebTest.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(patien);
+            return View(patient);
         }
 
 

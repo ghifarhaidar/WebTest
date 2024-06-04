@@ -18,7 +18,7 @@ namespace WebTest.Controllers
                 .ToListAsync()) :
                 Problem("Entity set 'PharmacyContext.Descriptions'  is null.");
         }
-        public IActionResult Create(int id)
+        public IActionResult Create()
         {
             return View();
         }
@@ -41,6 +41,47 @@ namespace WebTest.Controllers
             return View(description);
         }
 
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
+            var description = await _context.Descriptions.FindAsync(id);
+            if (description is null)
+            {
+                return NotFound();
+            }
+            var descriptionModel = new EditDescriptionRequest()
+            {
+                Name = description.Name,
+                Description1 = description.Description1,
+                PatientId = description.PatientId,
+            };
+
+            return View(descriptionModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id,[Bind("Name", "PatientId", "Description1")] EditDescriptionRequest description)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Update(new Description()
+                {
+                    Id = id,
+                    Name = description.Name,
+                    PatientId = description.PatientId,
+                    Description1 = description.Description1,
+                });
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Patients", new { id = description.PatientId });
+            }
+            return View(description);
+        }
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id is null)
@@ -49,7 +90,8 @@ namespace WebTest.Controllers
             }
 
             var description = await _context.Descriptions
-                            .FindAsync(id);
+                            .Include(i=>i.Patient)
+                            .FirstOrDefaultAsync(i => i.Id == id);
             if (description is null)
             {
                 return NotFound();
@@ -66,7 +108,8 @@ namespace WebTest.Controllers
             var medicines = new VWModels.Description.ShowMedicinesResponse();
 
             medicines.DescriptionId = (int)id;
-            medicines.Name = description .Name;
+            medicines.Name = description.Name;
+            medicines.Description1 = description.Description1;
             medicines.Medicines = filteredMedicines
                                     .Select(i => new MedicineInfo()
                                     {
@@ -81,8 +124,47 @@ namespace WebTest.Controllers
                                         Factory = i.Medicine.Factory.Name,
                                     }).ToList();
 
-            ViewBag.Medicines = medicines;
+            ViewBag.Description = description;
             return View(medicines);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
+            var description = await _context.Descriptions
+                            .Include(i => i.Patient)
+                            .FirstOrDefaultAsync(i => i.Id == id);
+            if (description is null)
+            {
+                return NotFound();
+            }
+
+            return View(description);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+
+            if (_context.Descriptions is null)
+            {
+                return Problem("Entity set 'PharmacyContext.Descriptions  is null.");
+            }
+            var description = await _context.Descriptions
+                            .Include(i => i.Patient)
+                            .FirstOrDefaultAsync(i => i.Id == id);
+            if (description is not null)
+            {
+                _context.Descriptions.Remove(description);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

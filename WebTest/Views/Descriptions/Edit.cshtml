@@ -1,0 +1,41 @@
+﻿@model WebTest.VWModels.Description.EditDescriptionRequest
+
+@{
+    ViewData["Title"] = "Edit Description";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-4">Edit Description</h1>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description1" class="control-label"></label>
+                            <textarea asp-for="Description1" class="form-control"></textarea>
+                            <span asp-validation-for="Description1" class="text-danger"></span>
+                            <input type="hidden" value="@Model.PatientId" asp-for="PatientId" />
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="submit" value="Edit" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

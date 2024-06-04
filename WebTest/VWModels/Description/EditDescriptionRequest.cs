@@ -1,10 +1,10 @@
 ﻿namespace WebTest.VWModels.Description
 {
-    public class ShowMedicinesResponse
+    public class EditDescriptionRequest
     {
-        public int DescriptionId { get; set; }
         public string Name { get; set; } = null!;
+        public int PatientId { get; set; }
         public string? Description1 { get; set; }
-        public List<MedicineInfo> Medicines { get; set; } = new();
+
     }
 }
