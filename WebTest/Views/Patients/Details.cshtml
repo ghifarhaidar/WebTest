@@ -19,9 +19,31 @@
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.LastName)</dd>
                         <dt class="col-sm-3">Address:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Address)</dd>
+                        <dt class="col-sm-3">Phone:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.PhoneNumber)</dd>
                     </dl>
+                    <hr />
+                    <h1>Descriptions</h1>
+
+                    <table class="table table-hover table-striped mt-4">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var description in ViewBag.Descriptions.Descriptions)
+                            {
+                                <tr>
+                                    <td>@description.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
                     <div class="mt-3">
                         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Create", "Descriptions", new { id = Model.Id })" class="btn btn-primary  ms-2">Add Description</a>
                         <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
                     </div>
                 </div>
